@@ -1,0 +1,58 @@
+create the below infrastructure using cloud shell 
+
+az group create --name akshandsonlab --location eastus
+
+
+az aks create --resource-group akshandsonlab --name jatindemo --enable-addons monitoring --kubernetes-version 1.28 --generate-ssh-keys --location eastus
+
+az acr create --resource-group akshandsonlab --name jatindemo --sku Standard --location eastus
+
+az aks update -n jatindemo -g akshandsonlab --attach-acr jatindemo
+
+
+az sql server create -l eastus -g akshandsonlab -n jatindemo -u sqladmin -p P2ssw0rd1234
+
+az sql db create -g akshandsonlab -s jatindemo -n mhcdb --service-objective S0
+
+
+
+
+ci part:
+
+to deploy the application on Kubernetes using manual process you need to perform below tasks
+1. update the appsettings.yml---- replace the values
+2. in docker compose file update the acr name
+
+
+docker-compose -f docker-compose.ci.build.yml up
+
+docker-compose -f docker-compose.yml build
+az login
+az acr login -n <name of the acr>
+
+docker-compose -f docker-compose.yml push
+
+
+
+
+cd--
+kubectl apply -f ""
+kubectl edit deployment mhc-front
+kubectl logs -pod mhc-front-7584db859-ss4gj                                                
+kubectl logs --pod mhc-front-7584db859-ss4gj    
+kubectl logs --po mhc-front-7584db859-ss4gj                                                
+kubectl logs --pods mhc-front-7584db859-ss4gj                                              
+kubectl logs mhc-front-7584db859-ss4gj 
+kubectl delete mhc-front-7584db859-ss4gj                                                   
+kubectl delete --pod mhc-front-7584db859-ss4gj                                             
+kubectl delete pod mhc-front-7584db859-ss4gj                                               
+kubectl get services                                                                       
+kubectl describe --pod mhc-front-7584db859-65hmv                                           
+kubectl describe --pods mhc-front-7584db859-65hmv                                          
+kubectl describe mhc-front-7584db859-65hmv                                                 
+kubectl describe -po mhc-front-7584db859-65hmv                                             
+kubectl describe pod mhc-front-7584db859-65hmv                                             
+kubectl get deployments --all-namespaces=true                                              
+kubectl edit mhc-front                                                                     
+kubectl edit deployment mhc-front                                                          
+kubectl get pods 
